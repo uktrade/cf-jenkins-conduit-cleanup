@@ -11,6 +11,10 @@ pipeline {
     ansiColor('xterm')
   }
 
+  parameters {
+    string(defaultValue: 'eu-west-2', description:'Please enter region: ', name: 'cf_region')
+  }
+
   stages {
 
     stage('Init') {
