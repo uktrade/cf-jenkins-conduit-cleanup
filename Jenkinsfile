@@ -48,7 +48,7 @@ pipeline {
               """
             }
 
-            conduit_ids_json = sh(script: "cf curl '/v3/apps?per_page=5000' | jq '[.resources[] | select(.name|test(\"__conduit_[0-9]+__\")) | select(now - (.updated_at|fromdateiso8601) > 43200) | .guid]'", returnStdout: true).trim()
+            conduit_ids_json = sh(script: "cf curl '/v3/apps?per_page=5000' | jq '[.resources[] | select(.name|test(\"__conduit_[0-9a-zA-Z]+__\")) | select(now - (.updated_at|fromdateiso8601) > 43200) | .guid]'", returnStdout: true).trim()
             conduit_ids = readJSON text: conduit_ids_json
             conduit_ids.each {
               sh "cf curl '/v3/apps/${it}' -X DELETE || true"
